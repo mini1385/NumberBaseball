@@ -20,8 +20,10 @@ public class MainActivity extends AppCompatActivity {
     int strike;
     int ball;
 
-    // 랜덤값, 유저값 배열 생성
-    int[] rnd=new int[3];
+    // 랜덤값
+    int com1,com2,com3;
+
+    // 유저값 배열 생성
     int[] user=new int[3];
 
     @Override
@@ -37,16 +39,19 @@ public class MainActivity extends AppCompatActivity {
         btn_in = findViewById(R.id.btn_in);
 
         // 랜덤값 지정
-        Random random=new Random();
-        for(int i=0;i<rnd.length;i++){
-            rnd[i]=random.nextInt(9);
-        }
+        Random rnd= new Random();
+        do{
+            com1=rnd.nextInt(10);
+            com2=rnd.nextInt(10);
+            com3=rnd.nextInt(10);
+        }while(com1==com2 || com1==com3 || com2==com3);
 
         View.OnClickListener listener=new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 strike=0;
                 ball=0;
+                String buf="";
 
                 // EditText값 불러오기, int형 변환
                 String str1 = et1.getText().toString();
@@ -60,16 +65,17 @@ public class MainActivity extends AppCompatActivity {
                 user[1]=user2;
                 user[2]=user3;
 
-                for (int i=0;i<3;i++) {
-                    for (int j=0;j<3;j++) {
-                        if (rnd[i] == user[j]) {
-                            if (i == j) strike++;
-                            else ball++;
-                        }
-                    }
-                }
+                if(user1==com1) strike++;
+                else if(user1==com2 || user1==com3) ball++;
 
-                tv.append(strike+" strike  "+ball+" ball\n");
+                if(user2==com2) strike++;
+                else if(user2==com1 || user2==com3) ball++;
+
+                if(user3==com3) strike++;
+                else if(user3==com1 || user3==com2) ball++;
+
+                buf=String.format("%d%d%d  : %d Strike, %d Ball\n",user1,user2,user3,strike, ball);
+                tv.append(buf);
 
                 if(strike==3){
                     tv.append("정답입니다!");
@@ -82,10 +88,12 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener listener2=new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Random random=new Random();
-                for(int i=0;i<rnd.length;i++){
-                    rnd[i]=random.nextInt(9);
-                }
+                Random rnd= new Random();
+                do{
+                    com1=rnd.nextInt(10);
+                    com2=rnd.nextInt(10);
+                    com3=rnd.nextInt(10);
+                }while(com1==com2 || com1==com3 || com2==com3);
 
                 tv.setText("");
                 et1.setText("");
